@@ -1,0 +1,16 @@
+
+table{
+	width:50%;
+	border:1px solid black;
+}
+.next{
+	margin-top: 1em;
+	margin-right: 2em;
+	float:right;
+	padding: 10px 27px;
+}
+.previous{
+	margin-top: 1em;
+	margin-left: 0.5em;
+	padding: 10px 27px;
+}

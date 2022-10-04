@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+ <link rel="stylesheet" media="screen" th:href="@{/css/postPage.css}"/>
+<meta charset="ISO-8859-1">
+<title>blog Post</title>
+</head>
+<body>
+<div align="center">
+    <h1>New Post</h1>
+    <form th:action="@{/publish}" method="post">
+        <input type="text" placeholder="Title" name="title"/> <br><br>
+        <input type="text" placeholder="Enter tags sperated by ',' only eg. tag1,tag2,tag3...." name="tags"/><br><br>    
+        <textarea rows="30" cols="100" placeholder="Write your blog here" name="content"></textarea>
+        <br>
+        <button type="submit" name="isPublished" value="false" >Save In Draft</button> 
+        <button type="submit" name="isPublished" value="true" >Publish</button>    
+    </form>
+</div>
+</body>
+</html>

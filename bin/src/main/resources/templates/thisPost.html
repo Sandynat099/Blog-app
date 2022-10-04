@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+ <link rel="stylesheet" media="screen" th:href="@{/css/thisPost.css}"/>
+<meta charset="ISO-8859-1">
+<title>blog Post</title>
+</head>
+<body>
+
+<form th:action="@{/blog}">
+<button type="submit" >Home</button>
+</form>
+<br>
+ <span sec:authorize="isAuthenticated()">
+<div th:if="${your.user.email.equals(userName) or admin}">
+<form th:action="@{/doUpdate}">
+<button type="submit" name="name" th:value="${your.id}">Edit this Post</button>
+</form>
+</div>
+<br>
+<div th:if="${your.user.email.equals(userName) or admin}">
+<form th:action="@{/delete}">
+<button type="submit" name="name" th:value="${your.id}">Delete this Post</button>
+</form>
+</div>
+ </span>
+<br><br>
+<label class="title" th:text="${your.title}"/>
+<br>
+<div th:each="tag : ${your.tag}">
+#<label th:text="${tag.name}"/>
+</div>
+<label th:text="${your.excerpt}"/>
+<br>
+<label th:text="${your.content}"/>
+
+<h2>Comments:</h2>
+<div th:each="comment : ${your.comment}">
+Name:<label th:text="${comment.name}"/>
+<br>
+Email:<label th:text="${comment.email}"/>
+<br>
+Comment:<label th:text="${comment.comment}"/><br><br>
+
+ <span sec:authorize="isAuthenticated()">
+<div th:if="${your.user.email.equals(userName) or admin}">
+<form th:action="@{/updateComment}">
+<button type="submit" name="commentId" th:value="${comment.id}">Edit</button>
+<input type="hidden" name="blogId" th:value="${your.id}"/>
+</form>
+</div>
+<div th:if="${your.user.email.equals(userName) or admin}">
+<form th:action="@{/deleteComment}">
+<button type="submit" name="commentId" th:value="${comment.id}">Delete</button>
+<input type="hidden" name="blogId" th:value="${your.id}"/>
+</form>
+</div>
+<br>
+</span>
+</div>
+
+
+
+<h3>Write your Comment:</h3>
+<span th:if="${Comment!=null}">
+
+ <form th:action="@{/doUpdateComment}" th:object="${Comment}" method="post">
+				
+				<input type="text" name="name" th:field="*{name}"  /><br>
+				
+				<input type="text" name="email" th:field="*{email}" /><br>
+				
+				<textarea type="text" name="comment" th:field="*{comment}" />
+				
+				<button type="submit">Update</button>
+				<input type="hidden" name="id" th:field="*{id}" />
+				<input type="hidden" name="blogId" th:value="${blogId}"/>
+			</form>
+</span>
+<span th:if="${Comment==null}">
+    <span sec:authorize="isAuthenticated()">
+<form th:action="@{/comment}" method="Get">
+        <input type="text" name="name" th:value="${authorName}" readonly/> <br>
+        <input type="text" name="email" th:value="${userName}" readonly/> <br>
+        <textarea placeholder="Write your comment" name="comment"></textarea>
+        <br>
+ 
+        <button type="submit" name="blogId" th:value="${your.id}" >Comment</button> 
+    </form>
+    </span>
+        <span sec:authorize="!isAuthenticated()">
+<form th:action="@{/comment}" method="Get">
+        <input type="text" placeholder="name" name="name"/> <br>
+        <input type="text" placeholder="email" name="email" /> <br>
+        <textarea placeholder="Write your comment" name="comment"></textarea>
+        <br>
+
+        <button type="submit" name="blogId" th:value="${your.id}" >Comment</button>
+    </form>
+    </span>
+</span>
+
+</body>
+</html>

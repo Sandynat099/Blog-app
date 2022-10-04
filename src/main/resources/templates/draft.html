@@ -1,0 +1,45 @@
+ <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+ <link rel="stylesheet" media="screen" th:href="@{/css/draft.css}"/>
+<meta charset="ISO-8859-1">
+<title>blog Post</title>
+</head>
+<body>
+<center>
+<h1>Posts In Draft</h1>
+<form class="data" th:action="@{/thisBlog}">
+			<table th:each="post : ${posts}">
+				<tr>
+
+					<td class="title" th:text="${post.title}"></td>
+				</tr>
+				<tr>
+					<td th:text="${post.user.name}"></td>
+				</tr>
+				<tr>
+					<td th:text="${post.publishedAt}"></td>
+				</tr>
+
+				<tr>
+					<td th:text="${post.excerpt}"></td>
+				</tr>
+
+				<br>
+
+				<tr>
+					<td> <button type="submit" name="postId" th:value="${post.id}">Read more</button></td>
+					<td> <button type="submit" name="draftId" th:value="${post.id}">Publish</button></td>
+				</tr>
+			</table>
+		</form>
+</center>
+<form th:action="@{/draft}">
+		<button class="previous" type="submit" th:if="${currentPage > 1}" name="pageNo" th:text="'previous'"
+			th:value="${currentPage-1}">Previous</button>
+	
+		<button class="next" type="submit" th:if="${currentPage < totalPages}" name="pageNo" th:text="'next'"
+			th:value="${currentPage+1}">Next</button>
+	</form>
+</body>
+</html>

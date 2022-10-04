@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+ <link rel="stylesheet" media="screen" th:href="@{/css/postPage.css}"/>
+<meta charset="ISO-8859-1">
+<title>blog Post</title>
+</head>
+<body>
+<div align="center">
+    <h1>New Post</h1>
+   <form th:action="@{/update}" th:object="${Update}" method="post">
+   
+				
+				<input type="text" th:field="*{title}"  /><br>
+				<input type="hidden" th:field="*{publishedAt}"/><br>
+				<input type="hidden" th:field="*{createdAt}"/><br>
+				
+				<input type="hidden" th:field="*{excerpt}"/><br>
+				
+				<input type="text" name="tags" th:value="${tags}"  /><br>
+				
+				<textarea rows="30" cols="100" type="text" th:field="*{content}" /><br>
+				
+				<button type="submit">Update</button>
+				<input type="hidden" th:field="*{id}" />
+			</form>
+</div>
+</body>
+</html>

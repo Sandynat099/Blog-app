@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<link rel="stylesheet" media="screen" th:href="@{/css/blog.css}" />
+	<meta charset="ISO-8859-1">
+	<title>blog Post</title>
+</head>
+
+<body>
+ <span sec:authorize="!isAuthenticated()">
+<form class="login" th:action="@{/login}">
+
+	<b>Wanna write Story</b>  <button type="submit">Login</button>
+	</form>
+</span>
+ <span sec:authorize="isAuthenticated()">
+<form class="logout" th:action="@{/logout}">
+	<button type="submit">Logout</button>
+	</form>
+ </span>
+	<form class="home" th:action="@{/}">
+		<button type="submit">Home</button>
+	</form>
+	<center>
+		<h1>Blog Application</h1>
+	</center>
+	
+	
+	<form class="search" th:action="@{/blog}">
+		<input type="text" placeholder="search" name="search" />
+		<button type="submit">Search</button>
+	</form>
+	<div align="center">
+
+ <li th:ref="navbar-item" sec:authorize="isAuthenticated()">
+		<a class="table" th:href="@{/post}">Create New Post</a>
+ </li>
+	</div>
+	<form th:action="@{/blog}">
+		<select name="sortBy" onchange="this.form.submit()">
+			<option>Sort by</option>
+			<option th:value="desc">New To Old</option>
+			<option th:value="asc">Old To New</option>
+			<span th:if="${search!=null}">
+				<input type="hidden" name="search" th:value="${search}" />
+			</span>
+			<span th:if="${author!=null}">
+				<input type="hidden" name="authorId" th:value="${author}" />
+			</span>
+			<span th:if="${tag!=null}">
+				<input type="hidden" name="tag" th:value="${tag}" />
+			</span>
+			<span th:if="${fromDate!=null && toDate!=null}">
+			<input type="hidden" name="fromDate" th:value="${fromDate}" />
+				<input type="hidden" name="toDate" th:value="${toDate}" />
+		</span>
+		</select>
+	</form>
+	<div class="aside">
+		<form class="filter" th:action="@{/blog}">
+			<span th:if="${search!=null}">
+				<input type="hidden" name="search" th:value="${search}" />
+			</span>
+			<h3>Filter</h3>
+			author:
+			<div th:each="authors : ${authors}">
+				<input type="checkbox" name="authorId" th:value="${authors.id}">
+				<label th:text="${authors.name}" /><br>
+			</div>
+			<div>
+			Date:<br>
+			<input type="date" name="fromDate"><br>
+			to
+			<input type="date" name="toDate"><br>
+			</div>
+			Tags:
+			<div th:each="tags : ${tagNames}">
+				<input type="checkbox" name="tag" th:value="${tags.id}">
+				<label th:text="${tags.name}" /><br>
+			</div>
+			<button type="submit">Filter</button>
+		</form>
+		<br><br><br>
+		<form class="data" th:action="@{/thisBlog}">
+			<span class="result" th:if="${search!=null}">Search Result for: <a th:text="${search}" /></span><br>
+			<table th:each="post : ${posts}">
+				<tr>
+
+					<td class="title" th:text="${post.title}"></td>
+				</tr>
+				<tr>
+					<td th:text="${post.user.name}"></td>
+				</tr>
+				<tr>
+					<td th:text="${post.publishedAt}"></td>
+				</tr>
+
+				<tr>
+					<td th:text="${post.excerpt}"></td>
+				</tr>
+
+				<br>
+
+				<tr>
+					<td> <button type="submit" name="postId" th:value="${post.id}">Read more</button></td>
+				</tr>
+			</table>
+		</form>
+
+	</div>
+	<form th:action="@{/blog}">
+		<button class="previous" type="submit" th:if="${currentPage > 1}" name="pageNo" th:text="'previous'"
+			th:value="${currentPage-1}">Previous</button>
+		<span th:if="${search!=null}">
+			<input type="hidden" name="search" th:value="${search}" />
+		</span>
+		<span th:if="${sortBy!=null}">
+			<input type="hidden" name="sortBy" th:value="${sortBy}" />
+		</span>
+		<span th:if="${author!=null}">
+			<input type="hidden" name="authorId" th:value="${author}" />
+		</span>
+		<span th:if="${tag!=null}">
+			<input type="hidden" name="tag" th:value="${tag}" />
+		</span>
+		<span th:if="${fromDate!=null && toDate!=null}">
+			<input type="hidden" name="fromDate" th:value="${fromDate}" />
+				<input type="hidden" name="toDate" th:value="${toDate}" />
+		</span>
+		<button class="next" type="submit" th:if="${currentPage < totalPages}" name="pageNo" th:text="'next'"
+			th:value="${currentPage+1}">Next</button>
+	</form>
+
+</body>
+
+</html>
