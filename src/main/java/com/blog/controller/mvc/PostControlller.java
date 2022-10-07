@@ -1,4 +1,4 @@
-package com.blog.controller;
+package com.blog.controller.mvc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,8 +93,8 @@ public class PostControlller {
 	}
 
 	@PostMapping("/update")
-	public String savePost(@ModelAttribute Post update, @RequestParam String tags) {
-		postService.saveUpdatedPost(tags, update);
+	public String savePost(@ModelAttribute Post update, @RequestParam String tags, @RequestParam String postId) {
+		postService.saveUpdatedPost(tags, update,postId);
 		return "redirect:/blog";
 	}
 

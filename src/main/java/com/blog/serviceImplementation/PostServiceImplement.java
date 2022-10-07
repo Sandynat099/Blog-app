@@ -72,7 +72,6 @@ public class PostServiceImplement implements PostService {
 				tagList.add(tagRepository.findByName(tagNames[i]));
 
 				newPost.setTag(tagList);
-				newPost.setTag(existedTagLists);
 				newPost.setPublishedAt(LocalDateTime.now());
 				newPost.setCreatedAt(LocalDateTime.now());
 				if (newPost.getContent().length() >= 50) {
@@ -81,6 +80,7 @@ public class PostServiceImplement implements PostService {
 					newPost.setExcerpt(newPost.getContent());
 				}
 				newPost.setUser(user);
+				
 				postRepository.save(newPost);
 			}
 
@@ -96,9 +96,11 @@ public class PostServiceImplement implements PostService {
 	}
 
 	@Override
-	public void saveUpdatedPost(String tags, Post update) {
+	public void saveUpdatedPost(String tags, Post update,String postId) {
+		
+		Optional<Post> post=postRepository.findById(Integer.parseInt(postId));
+		update.setId(Integer.parseInt(postId));
 		String[] tagNames = tags.split(",");
-
 		List<Tag> tagLists = new ArrayList<>();
 		List<Tag> existedTagLists = new ArrayList<>();
 
@@ -112,6 +114,10 @@ public class PostServiceImplement implements PostService {
 				existedTagLists.add(thisTag);
 				update.setTag(existedTagLists);
 				update.setUpdatedAt(LocalDateTime.now());
+				update.setCreatedAt(post.get().getCreatedAt());
+				update.setPublishedAt(post.get().getPublishedAt());
+				update.setUser(post.get().getUser());
+				update.setIsPublished(post.get().getIsPublished());
 				if (update.getContent().length() >= 50) {
 					update.setExcerpt(update.getContent().substring(0, 49));
 				} else {
@@ -126,6 +132,10 @@ public class PostServiceImplement implements PostService {
 				tagLists.add(tagRepository.findByName(tagNames[i]));
 				update.setTag(tagLists);
 				update.setUpdatedAt(LocalDateTime.now());
+				update.setCreatedAt(post.get().getCreatedAt());
+				update.setPublishedAt(post.get().getPublishedAt());
+				update.setUser(post.get().getUser());
+				update.setIsPublished(post.get().getIsPublished());
 				if (update.getContent().length() >= 50) {
 					update.setExcerpt(update.getContent().substring(0, 49));
 				} else {
@@ -240,5 +250,11 @@ public class PostServiceImplement implements PostService {
 	public List<Post> getUserDraftPosts(String userName, boolean post) {
 		List<Post> posts = postRepository.findUserPostByIsPublished(userName, post);
 		return posts;
+	}
+
+	@Override
+	public Post getPostById(int postId) {
+		
+		return postRepository.findById(postId).get();
 	}
 }

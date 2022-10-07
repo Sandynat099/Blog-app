@@ -32,9 +32,10 @@ public class BlogAppSecurityConfig{
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	http
 		.csrf().disable()
-		.authorizeRequests().antMatchers("/login","/","/createAccount","/loginForm","/blog","/css/**","/thisBlog","/comment").permitAll()
+		.authorizeRequests().antMatchers("/login","/","/createAccount","/loginForm","/blog","/css/**","/thisBlog","/comment","/api","/api/{postId}/comment","/api/{postId}").permitAll()
 		.anyRequest().authenticated()
 		.and()
+		.httpBasic().and()
 		.formLogin()
 		.loginPage("/login").permitAll()
 		.and()

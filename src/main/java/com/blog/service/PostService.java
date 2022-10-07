@@ -13,7 +13,7 @@ public void saveNewPublishedPost(String tags,Post newPost,Authentication authent
 
 public Post selectedPost(String postId);
 
-public void saveUpdatedPost(String tags,Post update);
+public void saveUpdatedPost(String tags,Post update,String postId);
 
 public Post updatePost(String name);
 
@@ -42,7 +42,7 @@ public void publishDraftPost(String draftId);
 
 public List<Post> getUserDraftPosts(String userName,boolean post);
 
-
+public Post getPostById(int postId);
 
 
 }

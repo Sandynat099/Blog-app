@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name="tags")
 public class Tag {
@@ -56,7 +58,7 @@ public class Tag {
 	}
 
 	
-
+	@JsonBackReference
 	public List<Post> getPost() {
 		return post;
 	}

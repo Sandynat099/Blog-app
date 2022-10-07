@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="post")
@@ -34,9 +36,11 @@ public class Post {
 	@OneToMany(mappedBy = "post", cascade = {CascadeType.ALL})
 	private List<Comment> comment;
 	
+
 	@ManyToMany
 	private List<Tag> tag;
 	
+	@JsonIgnore
 	@ManyToOne
 	private User user;
 	

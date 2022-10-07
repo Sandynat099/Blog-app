@@ -17,11 +17,7 @@
 				<textarea rows="30" cols="100" type="text" th:field="*{content}" /><br>
 				
 				<button type="submit">Update</button>
-				<input type="hidden" th:field="*{id}" />
-				<input type="hidden" th:field="*{publishedAt}"/><br>
-				<input type="hidden" th:field="*{isPublished}"/><br>
-				<input type="hidden" th:field="*{createdAt}"/><br>
-				<input type="hidden" th:field="*{user.id}"/><br>
+				<input type="hidden" name="postId" th:field="*{id}" />
 			</form>
 </div>
 </body>
