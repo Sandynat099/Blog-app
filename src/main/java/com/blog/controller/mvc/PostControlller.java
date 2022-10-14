@@ -93,7 +93,7 @@ public class PostControlller {
 	}
 
 	@PostMapping("/update")
-	public String savePost(@ModelAttribute Post update, @RequestParam String tags, @RequestParam String postId) {
+	public String savePost(@ModelAttribute Post update, @RequestParam String tags, @RequestParam String id) {
 		postService.saveUpdatedPost(tags, update,postId);
 		return "redirect:/blog";
 	}
